@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Map, InfoWindow, Marker, GoogleApiWrapper, Polyline} from 'google-maps-react'
+import {Map, GoogleApiWrapper, Polyline} from 'google-maps-react'
 import Route from '../Models/Route.js'
 import uuid from 'uuid/v4'
 import '../styles/Container.css';
@@ -35,8 +35,6 @@ export class MapContainer extends Component {
       var self = this;
 
       directionsService.route(request, (response, status) => {
-
-        console.log(response);
 
         self.setState({
           ...this.state,
@@ -82,15 +80,13 @@ export class MapContainer extends Component {
         onClick={this.polylineClicked.bind(this)}
         key={uuid()}
         path={route.path}
-        strokeColor={index == selectedIndex ? "#0000FF" : "#000000"}
-        strokeOpacity={index == selectedIndex ? 0.8 : 0.3}
+        strokeColor={index === selectedIndex ? "#0000FF" : "#000000"}
+        strokeOpacity={index === selectedIndex ? 0.8 : 0.3}
         strokeWeight={10} />
       );
     }
 
     polylineClicked(props, polyline, e) {
-      console.log(props);
-      console.log(polyline);
 
       this.setState({
         ...this.state,
@@ -124,7 +120,6 @@ export class MapContainer extends Component {
     render() {
       var possibleRoutes = this.state.routes;
       var selectedIndex = this.state.selectedIndex;
-      var {mapsLoaded} = this.state;
 
       if(possibleRoutes.length > 0) {
         this.findCenter(possibleRoutes[0]);
@@ -149,11 +144,6 @@ export class MapContainer extends Component {
     }
 }
 
-const LoadingContainer = (props) => (
-  <div className="Dinky">Fancy loading container!</div>
-)
-
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyD9lHQz1qs4SdyMWxDkmWVbOr41KrdLCik'),
-  ContainerStyles: {className: "willywilly"}
+  apiKey: ('AIzaSyD9lHQz1qs4SdyMWxDkmWVbOr41KrdLCik')
 })(MapContainer)

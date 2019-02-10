@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import MapContainer from './MapContainer.js'
+import DestinationList from './DestinationList.js'
 import '../styles/Container.css';
 
 class Container extends Component {
@@ -8,8 +9,11 @@ class Container extends Component {
 
     return (
       <div className="Container">
-        <div className="left-container">
+        <div className="panel">
           <MapContainer startLocation="TN233LN" endLocation="TN235GE"/>
+        </div>
+        <div className="panel">
+          <DestinationList />
         </div>
       </div>
     )
