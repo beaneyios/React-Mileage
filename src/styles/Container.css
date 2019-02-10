@@ -1,0 +1,14 @@
+.left-container {
+  width: 50%;
+  height: 100%;
+  display: inline-block;
+  float: left;
+  position: relative;
+}
+
+.Container {
+  display: flex;
+  flex-direction: row;
+  align-items: left;
+  height: 100%;
+}
