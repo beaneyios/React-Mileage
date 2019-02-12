@@ -7,10 +7,6 @@ export class DestinationList extends Component {
 
   constructor(props) {
       super(props);
-
-      this.state = {
-
-      }
     }
 
     componentDidMount() {
@@ -22,7 +18,7 @@ export class DestinationList extends Component {
       return (
         <div className="individual-item">
 
-          <DestinationForm />
+          <DestinationForm mileageCost={0.45} miles={500} handleSubmit={this.props.handleSubmit}/>
         </div>
       );
     }

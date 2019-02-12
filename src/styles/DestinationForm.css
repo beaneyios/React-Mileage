@@ -1,12 +1,19 @@
+.destination-container {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  height: 100%
+}
+
 .form {
-  height: 100%;
+  height: 50%;
   margin: 0;
   padding: 0;
   align-items: center;
   display: flex;
 }
 
-.text-form {
+.form input {
   text-align: center;
   width: calc(40% - 8px);
   height: 100%;
@@ -14,7 +21,7 @@
   margin-right: 4px;
 }
 
-a.button6{
+a.searchButton{
   display:inline-flex;
   padding:0.7em 1.4em;
   margin:2 0.3em 0.3em 0;
@@ -34,10 +41,19 @@ a.button6{
   height: 100%;
 }
 
-a.button6:active{
+a.searchButton:active{
   top:0.1em;
 }
 
-a.button6:hover {
+a.searchButton:hover {
   cursor: pointer;
+}
+
+.details {
+  display: flex;
+}
+
+.details p {
+  margin-right: 10px;
+  font-size: 20px;
 }

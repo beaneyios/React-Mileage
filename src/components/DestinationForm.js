@@ -12,34 +12,52 @@ export class DestinationForm extends Component {
       this.handleSubmit = this.handleSubmit.bind(this);
 
       this.state = {
-        value: ""
+        startPostcodeValue: "",
+        endPostcodeValue: ""
       }
     }
 
     handleSubmit(event) {
-      alert('A name was submitted: ' + this.state.value);
+
+      var {startPostcodeValue, endPostcodeValue} = this.state;
+
+      this.props.handleSubmit(startPostcodeValue, endPostcodeValue);
       event.preventDefault();
     }
 
     handleStartChange(event) {
 
-      this.setState({value: event.target.value});
+      this.setState({
+        ...this.state,
+        startPostcodeValue: event.target.value
+      });
     }
 
     handleEndChange(event) {
 
-      this.setState({value: event.target.value});
+      this.setState({
+        ...this.state,
+        endPostcodeValue: event.target.value
+      });
     }
 
     render() {
 
+      var {mileageCost, miles} = this.props;
+      var {startPostcodeValue, endPostcodeValue} = this.state;
+
       return (
-        <div className="form">
-          <input type="text" className="text-form" value={this.state.value} placeholder="Start Postcode" onChange={this.handleStartChange} />
-          <input type="text" className="text-form" value={this.state.value} placeholder="Destination Postcode" onChange={this.handleEndChange} />
-          <a onClick={this.handleSubmit} className="button6"><i class="glyphicon glyphicon-search"></i></a>
-          <a onClick={this.handleSubmit} className="button6"><i class="glyphicon glyphicon-plus"></i></a>
-          
+        <div className="destination-container">
+          <div className="form">
+            <input type="text" value={startPostcodeValue} placeholder="Start Postcode" onChange={this.handleStartChange} />
+            <input type="text" value={endPostcodeValue} placeholder="Destination Postcode" onChange={this.handleEndChange} />
+            <a onClick={this.handleSubmit} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
+            <a onClick={this.handleSubmit} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
+          </div>
+          <div className="details">
+            <p>Cost: £{mileageCost}</p>
+            <p>Distance: {miles}</p>
+          </div>
         </div>
       );
     }

@@ -18,7 +18,22 @@ export class MapContainer extends Component {
 
     componentDidMount() {
 
-      this.getDirections(this.props.startLocation, this.props.endLocation, this.props.google.maps);
+
+    }
+
+    componentDidUpdate(prevProps) {
+
+      var newStartLocation = this.props.startLocation;
+      var newEndLocation = this.props.endLocation;
+
+      var oldStartLocation = prevProps.startLocation;
+      var oldEndLocation = prevProps.endLocation;
+
+      if(newStartLocation === oldStartLocation && newEndLocation === oldEndLocation) {
+        return;
+      }
+
+      this.getDirections(newStartLocation, newEndLocation, this.props.google.maps);
     }
 
     getDirections(startLoc, destinationLoc, maps) {
@@ -136,7 +151,7 @@ export class MapContainer extends Component {
       }
 
       return (
-        <Map containerStyle={{position:"static"}} style={{}} google={this.props.google} zoom={14} {...inputProps} >
+        <Map containerStyle={{position:"static"}} style={{}} google={this.props.google} zoom={14} {...inputProps} initialCenter={{lat:51.1465, lng:0.8750}}>
             {this.polylines(possibleRoutes, selectedIndex)}
         </Map>
 
