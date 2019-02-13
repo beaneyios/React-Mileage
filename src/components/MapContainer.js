@@ -16,18 +16,13 @@ export class MapContainer extends Component {
       }
     }
 
-    componentDidMount() {
-
-
-    }
-
     componentDidUpdate(prevProps) {
 
-      var newStartLocation = this.props.startLocation;
-      var newEndLocation = this.props.endLocation;
+      var newStartLocation = this.props.calculation.startPostcode;
+      var newEndLocation = this.props.calculation.endPostcode;
 
-      var oldStartLocation = prevProps.startLocation;
-      var oldEndLocation = prevProps.endLocation;
+      var oldStartLocation = prevProps.calculation.startPostcode;
+      var oldEndLocation = prevProps.calculation.endPostcode;
 
       if(newStartLocation === oldStartLocation && newEndLocation === oldEndLocation) {
         return;
@@ -51,10 +46,13 @@ export class MapContainer extends Component {
 
       directionsService.route(request, (response, status) => {
 
+        var routes = this.routes(response);
+        this.props.routeClicked(this.props.calculation, routes[0].distance);
+
         self.setState({
           ...this.state,
           mapsLoaded: true,
-          routes: this.routes(response)
+          routes: routes
         });
       });
     }
@@ -69,7 +67,7 @@ export class MapContainer extends Component {
     }
 
     distance(route) {
-      return route.legs.count > 0 ? route.legs[0].distance.value : 0;
+      return route.legs.length > 0 ? route.legs[0].distance.value : 0;
     }
 
     path(route) {
@@ -91,6 +89,7 @@ export class MapContainer extends Component {
 
       return (
         <Polyline
+        distance={route.distance}
         polylineIndex={index}
         onClick={this.polylineClicked.bind(this)}
         key={uuid()}
@@ -102,6 +101,8 @@ export class MapContainer extends Component {
     }
 
     polylineClicked(props, polyline, e) {
+      var {calculation} = this.props;
+      this.props.routeClicked(calculation, props.distance);
 
       this.setState({
         ...this.state,

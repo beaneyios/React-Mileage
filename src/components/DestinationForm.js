@@ -9,54 +9,87 @@ export class DestinationForm extends Component {
 
       this.handleStartChange = this.handleStartChange.bind(this);
       this.handleEndChange = this.handleEndChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleAdd = this.handleAdd.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
 
       this.state = {
-        startPostcodeValue: "",
-        endPostcodeValue: ""
+        mileage: props.mileage
       }
     }
 
-    handleSubmit(event) {
+    handleSearch(event) {
 
-      var {startPostcodeValue, endPostcodeValue} = this.state;
+      var {mileage} = this.state;
+      this.props.handleSearch(mileage);
+      event.preventDefault();
+    }
 
-      this.props.handleSubmit(startPostcodeValue, endPostcodeValue);
+    handleAdd(event) {
+
+      this.props.handleAdd();
       event.preventDefault();
     }
 
     handleStartChange(event) {
 
+      var {mileage} = this.state;
+      var newMileage = JSON.parse(JSON.stringify(mileage));
+
+      newMileage.startPostcode = event.target.value;
+
       this.setState({
-        ...this.state,
-        startPostcodeValue: event.target.value
+        mileage: newMileage
       });
     }
 
     handleEndChange(event) {
 
+      var {mileage} = this.state;
+      mileage.endPostcode = event.target.value;
+
       this.setState({
-        ...this.state,
-        endPostcodeValue: event.target.value
+        mileage: mileage
       });
+    }
+
+    isEmpty(value) {
+
+      return value == undefined || value == null || value === "";
+    }
+
+    roundedTwoDecimals(value) {
+      if(value === 0) {
+        return value
+      }
+
+      return Math.floor(value * 100) / 100
     }
 
     render() {
 
-      var {mileageCost, miles} = this.props;
-      var {startPostcodeValue, endPostcodeValue} = this.state;
+      var {mileageCost, miles} = this.state.mileage;
+      var {startPostcode, endPostcode} = this.state.mileage;
+
+      var convertedMiles = miles / 1600;
+      var calculatedCost = mileageCost * convertedMiles;
+
+      var roundedMiles = this.roundedTwoDecimals(convertedMiles)
+      var roundedCost = this.roundedTwoDecimals(calculatedCost)
 
       return (
         <div className="destination-container">
           <div className="form">
-            <input type="text" value={startPostcodeValue} placeholder="Start Postcode" onChange={this.handleStartChange} />
-            <input type="text" value={endPostcodeValue} placeholder="Destination Postcode" onChange={this.handleEndChange} />
-            <a onClick={this.handleSubmit} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
-            <a onClick={this.handleSubmit} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
+            <div className="form-container">
+              <input type="text" value={startPostcode} placeholder="Start Postcode" onChange={this.handleStartChange} />
+              <input type="text" value={endPostcode} placeholder="Destination Postcode" onChange={this.handleEndChange} />
+            </div>
+            <div className="button-container">
+              <a onClick={this.handleSearch} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
+              <a onClick={this.handleAdd} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
+            </div>
           </div>
           <div className="details">
-            <p>Cost: £{mileageCost}</p>
-            <p>Distance: {miles}</p>
+            <p><b>DISTANCE:</b> {roundedMiles}</p>
           </div>
         </div>
       );

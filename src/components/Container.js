@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import MapContainer from './MapContainer.js'
 import DestinationList from './DestinationList.js'
+import MileageCalculation from '../Models/MileageCalculation.js'
+import uuid from 'uuid/v4'
 import '../styles/Container.css';
 
 class Container extends Component {
@@ -8,31 +10,69 @@ class Container extends Component {
   constructor(props) {
     super(props);
 
+    var initialMileage = new MileageCalculation(uuid(), "", "", 0, 0.45);
+
     this.state = {
-      startPostcode: "",
-      endPostcode: ""
+      currentMileageCalculation: initialMileage,
+      mileages: [initialMileage]
     }
   }
 
-  handleSubmit(postcode1, postcode2) {
+  handleSearch(newMileage) {
+    var newMileages = this.state.mileages.map((mileage) => {
+
+      if(mileage.id == newMileage.id) {
+        return newMileage
+      }
+
+      return mileage
+    })
 
     this.setState({
-      startPostcode: postcode1,
-      endPostcode: postcode2
+      currentMileageCalculation: newMileage,
+      mileages: newMileages
+    })
+  }
+
+  handleAdd() {
+
+    var newMileage = new MileageCalculation(uuid(), "", "", 0, 0.45);
+    var mileages = this.state.mileages;
+    mileages.push(newMileage);
+    this.setState({
+      ...this.state,
+      mileages: mileages
+    })
+  }
+
+  routeClicked(selectedMileage, distance) {
+
+    var updatedMileages = this.state.mileages.map((mileage) => {
+
+      if(selectedMileage.id == mileage.id) {
+        mileage.miles = distance;
+      }
+
+      return mileage;
+    });
+
+    this.setState({
+      ...this.state,
+      mileages: updatedMileages
     })
   }
 
   render() {
 
-    var {startPostcode, endPostcode} = this.state;
+    var {currentMileageCalculation} = this.state;
     return (
 
       <div className="Container">
         <div className="panel">
-          <MapContainer startLocation={startPostcode} endLocation={endPostcode}/>
+          <MapContainer calculation={currentMileageCalculation} routeClicked={this.routeClicked.bind(this)}/>
         </div>
         <div className="panel">
-          <DestinationList handleSubmit={this.handleSubmit.bind(this)}/>
+          <DestinationList handleSearch={this.handleSearch.bind(this)} handleAdd={this.handleAdd.bind(this)} mileages={this.state.mileages}/>
         </div>
       </div>
     )

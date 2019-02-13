@@ -5,22 +5,23 @@ import '../styles/DestinationList.css';
 
 export class DestinationList extends Component {
 
-  constructor(props) {
-      super(props);
-    }
-
-    componentDidMount() {
-
-    }
-
     render() {
+        return (
+          <div>
+            {
+             this.props.mileages.map((mileage) => {
+                  return (
+                    <div key={uuid()} className="individual-item">
+                      <DestinationForm mileage={mileage}
+                                       handleSearch={this.props.handleSearch}
+                                       handleAdd={this.props.handleAdd}/>
+                    </div>
+                  )
+              })
+            }
+          </div>
+        )
 
-      return (
-        <div className="individual-item">
-
-          <DestinationForm mileageCost={0.45} miles={500} handleSubmit={this.props.handleSubmit}/>
-        </div>
-      );
     }
 }
 
