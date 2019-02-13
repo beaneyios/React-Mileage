@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ClaimToggle from './ClaimToggle.js'
 import uuid from 'uuid/v4'
 import '../styles/DestinationForm.css';
 
@@ -89,7 +90,8 @@ export class DestinationForm extends Component {
             </div>
           </div>
           <div className="details">
-            <p><b>DISTANCE:</b> {roundedMiles}</p>
+            <span><b>DISTANCE:</b> {roundedMiles}</span>
+            <span><b>CLAIM:</b><ClaimToggle /></span>
           </div>
         </div>
       );

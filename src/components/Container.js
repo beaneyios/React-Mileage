@@ -38,6 +38,17 @@ class Container extends Component {
 
     var newMileage = new MileageCalculation(uuid(), "", "", 0, 0.45);
     var mileages = this.state.mileages;
+    if(mileages.length > 0) {
+      var mostRecent = mileages[mileages.length - 1];
+
+      if(mostRecent.miles === 0) {
+        alert("You haven't selected a route yet, choose a route before adding a new item");
+        return;
+      }
+
+      newMileage.startPostcode = mostRecent.endPostcode;
+    }
+
     mileages.push(newMileage);
     this.setState({
       ...this.state,

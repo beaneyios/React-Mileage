@@ -28,15 +28,16 @@
 
     .button-container {
       height: 70px;
-      display: inline-block;
-      width:10%;
+      display: inline-flex;
+      margin-left: 4px;
+      width:20%;
     }
 
     a.searchButton {
       align-content: center;
       align-items: center;
       display:inline-flex;
-      width:40%;
+      width:20%;
       margin-right: 4px;
       border-radius:0.15em;
       box-sizing: border-box;
@@ -67,12 +68,11 @@
     }
 
   .details {
-    display: flex;
+    display: block;
   }
 
-  .details p {
+  .details span {
       font-size: 25px;
-      float: left;
       margin-bottom: 0;
-      display: block;
+      display: flex;
   }
