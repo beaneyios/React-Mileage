@@ -14,7 +14,7 @@ export class DestinationList extends Component {
 
       var claimedMiles = this.props.mileages.reduce((acc, mileage) => {
         var miles = MileageHelper.miles(mileage.miles);
-        return MileageHelper.claimedMiles(miles, mileage.claim);
+        return acc + MileageHelper.claimedMiles(miles, mileage.claim);
       }, 0);
 
       return (
