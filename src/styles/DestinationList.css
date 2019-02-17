@@ -1,1 +1,7 @@
+.total h3 {
+  display: inline-block;
+}
 
+h3.inactive {
+  color: blue;
+}

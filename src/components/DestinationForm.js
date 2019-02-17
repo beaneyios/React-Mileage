@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ClaimToggle from './ClaimToggle.js'
-import uuid from 'uuid/v4'
+import MileageHelper from '../helpers/MileageHelper.js'
 import '../styles/DestinationForm.css';
 
 export class DestinationForm extends Component {
@@ -21,6 +21,17 @@ export class DestinationForm extends Component {
     handleSearch(event) {
 
       var {mileage} = this.state;
+
+      if(mileage.startPostcode === "") {
+        alert("You didn't enter a start location");
+        return;
+      }
+
+      if(mileage.endPostcode === "") {
+        alert("You didn't enter a destination");
+        return;
+      }
+
       this.props.handleSearch(mileage);
       event.preventDefault();
     }
@@ -46,11 +57,22 @@ export class DestinationForm extends Component {
     handleEndChange(event) {
 
       var {mileage} = this.state;
-      mileage.endPostcode = event.target.value;
+      var newMileage = JSON.parse(JSON.stringify(mileage));
+      newMileage.endPostcode = event.target.value;
 
       this.setState({
-        mileage: mileage
+        mileage: newMileage
       });
+    }
+
+    checkboxChecked(checked) {
+      this.updatedCheckBox(checked);
+    }
+
+    updatedCheckBox(checked) {
+      var {mileage} = this.state;
+      mileage.claim = checked;
+      this.props.handleClaimChange(mileage);
     }
 
     isEmpty(value) {
@@ -68,14 +90,11 @@ export class DestinationForm extends Component {
 
     render() {
 
-      var {mileageCost, miles} = this.state.mileage;
+      var {mileageCost, miles, claim} = this.state.mileage;
       var {startPostcode, endPostcode} = this.state.mileage;
 
-      var convertedMiles = miles / 1600;
-      var calculatedCost = mileageCost * convertedMiles;
-
-      var roundedMiles = this.roundedTwoDecimals(convertedMiles)
-      var roundedCost = this.roundedTwoDecimals(calculatedCost)
+      var roundedMiles = MileageHelper.miles(miles);
+      var claimedMiles = MileageHelper.claimedMiles(roundedMiles, claim);
 
       return (
         <div className="destination-container">
@@ -90,8 +109,12 @@ export class DestinationForm extends Component {
             </div>
           </div>
           <div className="details">
-            <span><b>DISTANCE:</b> {roundedMiles}</span>
-            <span><b>CLAIM:</b><ClaimToggle /></span>
+            <span className="line">
+              <b>Distance:&nbsp;</b> {roundedMiles}&nbsp;/ <span className="totalMiles">&nbsp;{claimedMiles} (claimed)</span>
+            </span>
+            <span className="line">
+              <b>Claim:</b><ClaimToggle on={claim} checkboxChecked={this.checkboxChecked.bind(this)}/>
+            </span>
           </div>
         </div>
       );

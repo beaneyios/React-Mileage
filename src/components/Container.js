@@ -10,7 +10,7 @@ class Container extends Component {
   constructor(props) {
     super(props);
 
-    var initialMileage = new MileageCalculation(uuid(), "", "", 0, 0.45);
+    var initialMileage = new MileageCalculation(uuid(), "", "", 0, 0.45, false);
 
     this.state = {
       currentMileageCalculation: initialMileage,
@@ -36,7 +36,7 @@ class Container extends Component {
 
   handleAdd() {
 
-    var newMileage = new MileageCalculation(uuid(), "", "", 0, 0.45);
+    var newMileage = new MileageCalculation(uuid(), "", "", 0, 0.45, true);
     var mileages = this.state.mileages;
     if(mileages.length > 0) {
       var mostRecent = mileages[mileages.length - 1];
@@ -53,6 +53,22 @@ class Container extends Component {
     this.setState({
       ...this.state,
       mileages: mileages
+    })
+  }
+
+  handleClaimChange(newMileage) {
+    var newMileages = this.state.mileages.map((mileage) => {
+
+      if(mileage.id == newMileage.id) {
+        return newMileage
+      }
+
+      return mileage
+    });
+
+    this.setState({
+      ...this.state,
+      mileages: newMileages
     })
   }
 
@@ -76,6 +92,7 @@ class Container extends Component {
   render() {
 
     var {currentMileageCalculation} = this.state;
+
     return (
 
       <div className="Container">
@@ -83,7 +100,11 @@ class Container extends Component {
           <MapContainer calculation={currentMileageCalculation} routeClicked={this.routeClicked.bind(this)}/>
         </div>
         <div className="panel">
-          <DestinationList handleSearch={this.handleSearch.bind(this)} handleAdd={this.handleAdd.bind(this)} mileages={this.state.mileages}/>
+          <DestinationList
+            handleSearch={this.handleSearch.bind(this)}
+            handleAdd={this.handleAdd.bind(this)}
+            handleClaimChange={this.handleClaimChange.bind(this)}
+            mileages={this.state.mileages}/>
         </div>
       </div>
     )
