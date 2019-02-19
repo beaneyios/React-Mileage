@@ -2,18 +2,20 @@ class MileageHelper {
 
   static miles(meters) {
     var convertedMiles = meters / 1600;
-    var roundedMiles = this.roundedTwoDecimals(convertedMiles);
+    var roundedMiles = this.roundedOneDecimal(convertedMiles);
 
     // debugger;
     return roundedMiles;
   }
 
-  static roundedTwoDecimals(value) {
+  static roundedOneDecimal(value) {
     if(value === 0) {
       return value
     }
 
-    return Math.floor(value * 100) / 100
+    var roundedToOneDecimal = Math.floor(value * 10) / 10;
+
+    return Math.round(roundedToOneDecimal);
   }
 
   static claimedMiles(totalMiles, claim) {
@@ -26,7 +28,7 @@ class MileageHelper {
       return 0;
     }
 
-    var roundedMiles = this.roundedTwoDecimals(totalMiles - 5.0);
+    var roundedMiles = this.roundedOneDecimal(totalMiles - 5.0);
     return roundedMiles;
   }
 }
