@@ -45,8 +45,18 @@ export class MapContainer extends Component {
       var self = this;
 
       directionsService.route(request, (response, status) => {
+        if(response.status === "NOT_FOUND") {
+          alert('Postcode not found - maybe try a space?');
+          return;
+        }
 
         var routes = this.routes(response);
+
+        if(routes.length === 0) {
+          alert('Something went wrong, screenshot and send to support.');
+          return;
+        }
+
         this.props.routeClicked(this.props.calculation, routes[0].distance);
 
         self.setState({
@@ -58,6 +68,10 @@ export class MapContainer extends Component {
     }
 
     routes(response) {
+      if(response.routes == undefined || response.routes == null) {
+        return [];
+      }
+
       return response.routes.map((route, index) => {
         var path = this.path(route);
         var distance = this.distance(route);
