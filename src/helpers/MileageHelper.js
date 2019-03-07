@@ -4,18 +4,35 @@ class MileageHelper {
     var convertedMiles = meters / 1600;
     var roundedMiles = this.roundedOneDecimal(convertedMiles);
 
-    // debugger;
     return roundedMiles;
   }
 
   static roundedOneDecimal(value) {
+
     if(value === 0) {
       return value
     }
 
-    var roundedToOneDecimal = Math.floor(value * 10) / 10;
+    return this.round(value, 5);
+  }
 
-    return Math.round(roundedToOneDecimal);
+  static round(value, n) {
+
+    var exponent = n;
+    var roundedValue = value;
+
+    for(var i = exponent; i >= 0; i--) {
+
+      var divider = Math.pow(10, i);
+
+      if(Number.isInteger(roundedValue * 10)) {
+        return Math.round(roundedValue);
+      }
+
+      roundedValue = Math.round(roundedValue * divider) / divider;
+    }
+
+    return roundedValue;
   }
 
   static claimedMiles(totalMiles, claim) {
