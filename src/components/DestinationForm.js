@@ -18,8 +18,12 @@ export class DestinationForm extends Component {
       }
     }
 
-    handleSearch(event) {
+    handleSearchButtonClicked(event) {
+      this.handleSearch();
+      event.preventDefault();
+    }
 
+    handleSearch() {
       var {mileage} = this.state;
 
       if(mileage.startPostcode === "") {
@@ -33,17 +37,14 @@ export class DestinationForm extends Component {
       }
 
       this.props.handleSearch(mileage);
-      event.preventDefault();
     }
 
     handleAdd(event) {
-
       this.props.handleAdd();
       event.preventDefault();
     }
 
     handleStartChange(event) {
-
       var {mileage} = this.state;
       var newMileage = JSON.parse(JSON.stringify(mileage));
 
@@ -55,7 +56,6 @@ export class DestinationForm extends Component {
     }
 
     handleEndChange(event) {
-
       var {mileage} = this.state;
       var newMileage = JSON.parse(JSON.stringify(mileage));
       newMileage.endPostcode = event.target.value;
@@ -76,7 +76,6 @@ export class DestinationForm extends Component {
     }
 
     isEmpty(value) {
-
       return value == undefined || value == null || value === "";
     }
 
@@ -86,6 +85,12 @@ export class DestinationForm extends Component {
       }
 
       return Math.floor(value * 100) / 100
+    }
+
+    keyPressed(event) {
+      if(event.key === "Enter") {
+        this.handleSearch()
+      }
     }
 
     render() {
@@ -100,11 +105,11 @@ export class DestinationForm extends Component {
         <div className="destination-container">
           <div className="form">
             <div className="form-container">
-              <input type="text" value={startPostcode} placeholder="Start Postcode" onChange={this.handleStartChange} />
-              <input type="text" value={endPostcode} placeholder="Destination Postcode" onChange={this.handleEndChange} />
+              <input onKeyPress={this.keyPressed.bind(this)} type="text" value={startPostcode} placeholder="Start Postcode" onChange={this.handleStartChange} />
+              <input onKeyPress={this.keyPressed.bind(this)} type="text" value={endPostcode} placeholder="Destination Postcode" onChange={this.handleEndChange} />
             </div>
             <div className="button-container">
-              <a onClick={this.handleSearch} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
+              <a onClick={this.handleSearchButtonClicked} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
               <a onClick={this.handleAdd} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
             </div>
           </div>
