@@ -14,7 +14,8 @@ class Container extends Component {
 
     this.state = {
       currentMileageCalculation: initialMileage,
-      mileages: [initialMileage]
+      mileages: [initialMileage],
+      reset: false
     }
   }
 
@@ -30,7 +31,8 @@ class Container extends Component {
 
     this.setState({
       currentMileageCalculation: newMileage,
-      mileages: newMileages
+      mileages: newMileages,
+      reset: false
     })
   }
 
@@ -52,7 +54,8 @@ class Container extends Component {
     mileages.push(newMileage);
     this.setState({
       ...this.state,
-      mileages: mileages
+      mileages: mileages,
+      reset: false
     })
   }
 
@@ -68,7 +71,8 @@ class Container extends Component {
 
     this.setState({
       ...this.state,
-      mileages: newMileages
+      mileages: newMileages,
+      reset: false
     })
   }
 
@@ -85,8 +89,20 @@ class Container extends Component {
 
     this.setState({
       ...this.state,
-      mileages: updatedMileages
+      mileages: updatedMileages,
+      reset: false
     })
+  }
+
+  handleResetButtonClicked() {
+
+    var initialMileage = new MileageCalculation(uuid(), "", "", 0, 0.45, false);
+
+    this.setState({
+      currentMileageCalculation: initialMileage,
+      mileages: [initialMileage],
+      reset: true
+    });
   }
 
   render() {
@@ -97,14 +113,20 @@ class Container extends Component {
 
       <div className="Container">
         <div className="panel">
-          <MapContainer calculation={currentMileageCalculation} routeClicked={this.routeClicked.bind(this)}/>
+          <MapContainer
+            calculation={currentMileageCalculation}
+            routeClicked={this.routeClicked.bind(this)}
+            reset={this.state.reset}
+          />
         </div>
         <div className="panel">
           <DestinationList
             handleSearch={this.handleSearch.bind(this)}
             handleAdd={this.handleAdd.bind(this)}
             handleClaimChange={this.handleClaimChange.bind(this)}
-            mileages={this.state.mileages}/>
+            mileages={this.state.mileages}
+            handleResetButtonClicked={this.handleResetButtonClicked.bind(this)}
+          />
         </div>
       </div>
     )

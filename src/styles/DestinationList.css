@@ -1,7 +1,33 @@
+.total {
+  display: inline-flex;
+  align-items: center;
+  align-content: center;
+}
+
 .total h3 {
-  display: inline-block;
+  margin: 0;
 }
 
 h3.inactive {
   color: blue;
+}
+
+.resetButton:hover {
+  cursor: pointer;
+}
+
+.resetButton {
+  width: 36px;
+  height: 36px;
+  background-color: #3369ff;
+  display: inline-flex;
+  margin: 10px;
+  padding: 10px;
+  padding-bottom: 7px;
+  border-radius: 2px;
+  border-bottom: 3px solid blue;
+}
+
+.resetButton img {
+  width: 100%;
 }

@@ -24,6 +24,12 @@ export class MapContainer extends Component {
       var oldStartLocation = prevProps.calculation.startPostcode;
       var oldEndLocation = prevProps.calculation.endPostcode;
 
+      var reset = this.props.reset;
+
+      if(reset) {
+        return;
+      }
+
       if(newStartLocation === oldStartLocation && newEndLocation === oldEndLocation) {
         return;
       }

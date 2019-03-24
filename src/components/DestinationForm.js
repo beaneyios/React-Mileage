@@ -109,8 +109,8 @@ export class DestinationForm extends Component {
               <input onKeyPress={this.keyPressed.bind(this)} type="text" value={endPostcode} placeholder="Destination Postcode" onChange={this.handleEndChange} />
             </div>
             <div className="button-container">
-              <a onClick={this.handleSearchButtonClicked} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
-              <a onClick={this.handleAdd} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
+              <a onClick={this.handleSearchButtonClicked.bind(this)} className="searchButton"><i className="glyphicon glyphicon-search"></i></a>
+              <a onClick={this.handleAdd.bind(this)} className="searchButton"><i className="glyphicon glyphicon-plus"></i></a>
             </div>
           </div>
           <div className="details">

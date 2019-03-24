@@ -3,8 +3,13 @@ import DestinationForm from './DestinationForm.js'
 import MileageHelper from '../helpers/MileageHelper.js'
 import uuid from 'uuid/v4'
 import '../styles/DestinationList.css';
+import resetButton from '../images/reset.png';
 
 export class DestinationList extends Component {
+
+    handleResetButtonClicked() {
+      this.props.handleResetButtonClicked()
+    }
 
     render() {
 
@@ -22,6 +27,9 @@ export class DestinationList extends Component {
           <div className="total">
             <h3>Total Miles: {totalMiles} /&nbsp;</h3>
             <h3 className="inactive">Claimed Miles: {claimedMiles}</h3>
+            <div className="resetButton" onClick={this.handleResetButtonClicked.bind(this)}>
+              <img src={resetButton} />
+            </div>
           </div>
           {
            this.props.mileages.map((mileage) => {
